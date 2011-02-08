@@ -1,0 +1,41 @@
+{% extends "CubTrax/base.html" %}
+
+{% block title %}CubTrax main page{% endblock %}
+
+{% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
+
+{% block content %}
+<h1>{{ meeting }}</h1>
+<h2>Leaders</h2>
+<ul>
+{% for leader in meeting.leaders.all %}
+	<li>{{ leader }}</li>
+{% endfor %}
+</ul>
+
+<h2>Scouts</h2>
+<ul>
+{% for scout in meeting.attendees.all %}
+	<li><a href="../../scouts/{{ scout.pk }}">{{ scout }}</a></li>
+{% endfor %}
+</ul>
+
+<h2>Requirements</h2>
+<ul>
+{% for req in meeting.requirements.all %}
+	<li><a href="../../awards/{{ req.award.pk }}">{{ req }}</a></li>
+{% endfor %}
+</ul>
+
+<h2>Notes</h2>
+{% if meeting.notes %}
+	<p>{{ meeting.notes }}</p>
+{% else %}
+	<p>None</p>
+{% endif %}
+
+{% endblock %}
+
+{% block extjs_script %}
+{% endblock %}
+

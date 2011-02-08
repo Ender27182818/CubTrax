@@ -1,0 +1,16 @@
+{% extends "CubTrax/base.html" %}
+
+{% block title %}Wocus main page{% endblock %}
+
+{% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
+
+{% block content %}
+<h2>Added meeting {{meeting}}</h2>
+<ul>
+	<li><a href="../../add">Add another</a></li>
+</ul>
+{% endblock %}
+
+{% block extjs_script %}
+{% endblock %}
+

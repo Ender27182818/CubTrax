@@ -1,0 +1,19 @@
+{% extends "CubTrax/base.html" %}
+
+{% block title %}CubTrax main page{% endblock %}
+
+{% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
+
+{% block content %}
+<h1>Meetings</h1>
+	{% for meeting in meetings %} 
+	<div>
+		<a href="./{{ meeting.pk }}">{{ meeting }}</a>
+	</div>
+	{% endfor %}
+<h1><a href="add">Add a Meeting</a></h1>
+{% endblock %}
+
+{% block extjs_script %}
+{% endblock %}
+

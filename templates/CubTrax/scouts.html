@@ -1,0 +1,19 @@
+{% extends "CubTrax/base.html" %}
+
+{% block title %}CubTrax main page{% endblock %}
+
+{% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
+
+{% block content %}
+<h1>Current Cub Scouts</h1>
+	{% for scout in scouts %} 
+	<div>
+		<a href="./{{ scout.pk }}">{{ scout.Name }}</a>
+	</div>
+	{% endfor %}
+<h1><a href="add">Add a Scout</a></h1>
+{% endblock %}
+
+{% block extjs_script %}
+{% endblock %}
+

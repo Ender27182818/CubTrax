@@ -1,0 +1,20 @@
+{% extends "CubTrax/base.html" %}
+
+{% block title %}CubTrax main page{% endblock %}
+
+{% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
+
+{% block content %}
+<img src="/static_stuff/img/awards/{{award.ImageName}}"/><h1>{{ award.name }}</h1>
+
+<ul>
+{% for req in award.requirements %}
+	{{ req.to_li|safe }}
+{% endfor %}
+</ul>
+	
+{% endblock %}
+
+{% block extjs_script %}
+{% endblock %}
+

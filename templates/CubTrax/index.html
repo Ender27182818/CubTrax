@@ -1,0 +1,60 @@
+{% extends "CubTrax/base.html" %}
+
+{% block title %}CubTrax main page{% endblock %}
+
+{% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
+
+{% block content %}
+{% for cub in cubs %}
+<div class="summary_block">
+	<h1 class="summary_title"><a href="./scouts/{{ cub.pk }}">{{ cub.Name }}</a></h1>
+	<table border="1">
+		<tr>
+			<th>Progress</th>
+			<th>Latest Accomplishments</th>
+			<th>To Do</th>
+		</tr>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td>{{ cub.GetBirthdayString }}</td>
+						<td>
+							<div style="width:200px;height:20px" class="pbar_container">
+								<div class="pbar_green" style="width:{{ cub.GetBirthdayPercentageInt }}%;height:100%"/>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><a href="./awards/{{ cub.CurrentAward.pk }}"><img width="40" height="40" src="{{ STATIC_URL }}CubTrax/img/awards/{{ cub.CurrentAward.ImageName }}"/></a></td>
+						<td>
+							<div style="width:200px;height:20px" class="pbar_container">
+								<div class="pbar_red" style="width:{{ cub.CurrentAwardPercentCompleted }}%;height:100%"/>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<ul>
+				{% for a in cub.LatestAchievements %}
+					<li>{{ a.date }} - <a href="./awards/{{ a.requirement.award.pk }}">{{ a.requirement }}</a></li>
+				{% endfor %}
+				</ul>
+			</td>
+			<td>
+				<ul>
+				{% for a in cub.ToDo %}
+					<li><a href="./awards/{{ a.pk }}">{{ a.name }}</a></li>
+				{% endfor %}
+			</td>
+		</tr>
+	</table>
+</div>
+{% endfor %}
+ 
+{% endblock %}
+
+{% block extjs_script %}
+{% endblock %}
+

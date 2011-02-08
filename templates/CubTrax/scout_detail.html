@@ -1,0 +1,36 @@
+{% extends "CubTrax/base.html" %}
+
+{% block title %}{{ scout.first_name }} {{ scout.last_name }}{% endblock %}
+
+{% block content %}
+<h1>This is the detail page for {{ scout.Name }}</h1>
+
+<h2>Birthday: {{scout.birthday}}</h2>
+<h2>Current badge: <a href="../../award/{{ scout.CurrentAward.pk }}">{{scout.CurrentAward}}</a></h2>
+<h2>Progress: {{scout.CurrentAwardPercentCompleted}}%</h2>
+<h2>To Do List:</h2>
+<ul>
+	{% for req in scout.ToDo %}
+		<li><a href="../../awards/{{ req.award.pk }}">{{ req }} - {{ req.contents }}</a></li>
+	{% endfor %}
+</ul>
+
+<h2>Recent Accomplishments:</h2>
+<ul>
+	{% for achievement in scout.LatestAchievements %}
+		<li><a href="../../awards/{{ achievement.requirement.award.pk }}">{{ achievement.requirement.name }}</a> on {{ achievement.date }}</li>
+	{% endfor %}
+</ul>
+
+<h2>Quick Add Accomplishment</h2>
+<form action="./quick_add_accomplishment" method="post">
+{{ form.as_p }}
+<input type="submit" value="Add Accomplishment" />
+</form>
+
+{% endblock %}
+
+{% block extjs_script %}
+
+{% endblock %}
+

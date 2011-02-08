@@ -1,0 +1,16 @@
+{% extends "CubTrax/base.html" %}
+
+{% block title %}CubTrax main page{% endblock %}
+
+{% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
+
+{% block content %}
+<form action="./add" method="post">
+{{ form.as_p }}
+<input type="submit" value="Add Scout" />
+</form>
+{% endblock %}
+
+{% block extjs_script %}
+{% endblock %}
+
