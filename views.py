@@ -18,7 +18,8 @@ def scout_manager(request):
 def scouts(request):
 	scouts = CubScout.objects.all()
 	dens = Den.objects.all()
-	return render_to_response('CubTrax/scouts.html', {'scouts':scouts, 'dens':dens}, context_instance=RequestContext(request))
+	den_types = [v for k, v in Den.DEN_TYPES]
+	return render_to_response('CubTrax/scouts.html', {'scouts':scouts, 'dens':dens, 'den_types':den_types}, context_instance=RequestContext(request))
 
 def scout_detail(request, scout_id):
 	scout = CubScout.objects.get(id=scout_id)

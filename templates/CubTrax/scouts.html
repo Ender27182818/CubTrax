@@ -2,39 +2,51 @@
 
 {% block title %}CubTrax main page{% endblock %}
 
-{% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
+{% block additional_style %}{{ STATIC_URL }}CubTrax/css/scouts.css{% endblock %}
 
 {% block custom-js-files %}
 <script type="text/javascript" src="{{ STATIC_URL }}CubTrax/js/CubTrax.common.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}CubTrax/js/scouts.js"></script>
 {% endblock %}
 
 {% block content %}
 
 <h1>Cub Scouts</h1>
 	{% if not scouts %}
-		<p>You have no scouts! Let's <a href="#">add one!</a></p>
+		<p>You have no scouts! Let's <a href="#" onclick="popup_add_scout_dialog()">add one!</a></p>
 	{% endif %}
 
-	{% for scout in scouts %} 
-	<h3><a href="#">
-		<table class="stripeMe" id="scout_table">
-			<tr id="scout_row_{{scout.underscored_name}}">
+	<table class="stripeMe" id="scout_table">
+		<tr><th></th><th>First Name</th><th>Last Name</th><th>Den</th><th>Birthday</th></tr>
+		{% for scout in scouts %} 
+			<tr id="scout_row_{{scout.id}}">
 				<td><img width="50" heigh="50" src="{{ STATIC_URL }}CubTrax/img/avatar.jpg"/></td>
-				<td>{{ scout.name }}</td>
+				<td>{{ scout.first_name }}</td>
+				<td>{{ scout.last_name }}</td>
+				<td>{{ scout.den.get_den_type_display }}</td>
+				<td>{{ scout.birthday }}</td>
+				<td><button class="scout_delete_button button" id="delete_scout_{{ scout.id }}">X</button></td>
 			</tr>
+		{% endfor %}
+	</table>
+	<button id="add_scout_popup_button">Add a Scout</button>
+	
+	<div id="add_scout_dialog"/>
+		<img width="100" height="100" src="{{ STATIC_URL }}CubTrax/img/avatar.jpg" style="float:left"/>
+		<table style="float:right">
+			<tr><td>First Name:</td><td><input id="new_scout_first_name" class="add_scout_widget" type="text"/></td></tr>
+			<tr><td>Last Name:</td><td><input id="new_scout_last_name" class="add_scout_widget" type="text"/></td></tr>
+			<tr><td>Birthday:</td><td><input id="new_scout_birthday" class="add_scout_widget" type="text"/></td></tr>
+			<tr><td>Den:</td><td><select id="new_scout_den_type" class="add_scout_widget" >{% for den in den_types %}<option value="{{ den }}">{{ den }}</option>{% endfor %}</select></td></tr>
+			<tr><td></td><td><button id="add_scout_button" class="add_scout_widget" >Add Scout</button></td></tr>
 		</table>
-	</a></h3>
-	<div>
-		<a href="./{{ scout.pk }}">{{ scout.Name }}</a>
 	</div>
-	{% endfor %}
+		
 
-	<div id="thingy" style="width:300px;height:300px;background-color:#0f0;"/>
-<h1><a href="add">Add a Scout</a></h1>
 {% endblock %}
 
 {% block document-ready-js %}
-
-	$('#thingy').dialog();
+	STATIC_URL = {{ STATIC_URL }}
+	setup_scout_page();
 
 {% endblock %}

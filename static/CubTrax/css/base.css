@@ -97,3 +97,27 @@ div.pbar_red {
 	background-image:url("../img/progressbar_red.png");
 	background-repeat: repeat-x;
 }
+
+
+tr {
+	font-size: 14px;
+}
+
+/* Color blocked table headers */
+tr th {
+	background: #ab8e4a;
+}
+
+/* Alternating stripe tables */
+tr.alt td {
+	background: #fff3d7;
+}
+
+tr.over td {
+	background: #bcd4ec;
+}
+
+/* fix some annoying stuff */
+img {
+	border-style: none;
+}

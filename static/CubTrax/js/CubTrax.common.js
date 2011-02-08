@@ -13,11 +13,14 @@ function setup_buttons() {
 	// Set up the substance delete buttons
 	$( ".substance_delete_button" ).unbind().click( remove_substance_wrapper );
 }
+
+
 // Set up stripey table rows
 function stripe_tables() {
-	//$(".stripeMe tr:even").addClass("alt");
-	//$(".stripeMe tr").mouseover(function() {$(this).addClass("over");	}).mouseout(function() {$(this).removeClass("over");});
+	$(".stripeMe tr:even").addClass("alt");
+	$(".stripeMe tr").mouseover(function() {$(this).addClass("over");	}).mouseout(function() {$(this).removeClass("over");});
 }
+
 
 function add_to_substance_table(data) {
 	// Add the new row
