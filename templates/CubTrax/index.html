@@ -5,6 +5,10 @@
 {% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
 
 {% block content %}
+{% if not cubs %}
+	<p>Looks like you don't have any Scouts yet. Head to the <a href="{% url CubTrax.views.scouts %}">Scout Manager</a></p>
+{% endif %}
+
 {% for cub in cubs %}
 <div class="summary_block">
 	<h1 class="summary_title"><a href="./scouts/{{ cub.pk }}">{{ cub.Name }}</a></h1>

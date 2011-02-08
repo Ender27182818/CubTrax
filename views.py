@@ -12,6 +12,9 @@ def index(request):
 	cubs = CubScout.objects.all().order_by('birthday')
 	return render_to_response('CubTrax/index.html', {'cubs':cubs}, context_instance=RequestContext(request))
 
+def scout_manager(request):
+	return render_to_response('CubTrax/scouts.html', {'scouts':scouts, 'dens':dens}, context_instance=RequestContext(request))
+
 def scouts(request):
 	scouts = CubScout.objects.all()
 	dens = Den.objects.all()

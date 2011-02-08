@@ -4,16 +4,37 @@
 
 {% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
 
+{% block custom-js-files %}
+<script type="text/javascript" src="{{ STATIC_URL }}CubTrax/js/CubTrax.common.js"></script>
+{% endblock %}
+
 {% block content %}
-<h1>Current Cub Scouts</h1>
+
+<h1>Cub Scouts</h1>
+	{% if not scouts %}
+		<p>You have no scouts! Let's <a href="#">add one!</a></p>
+	{% endif %}
+
 	{% for scout in scouts %} 
+	<h3><a href="#">
+		<table class="stripeMe" id="scout_table">
+			<tr id="scout_row_{{scout.underscored_name}}">
+				<td><img width="50" heigh="50" src="{{ STATIC_URL }}CubTrax/img/avatar.jpg"/></td>
+				<td>{{ scout.name }}</td>
+			</tr>
+		</table>
+	</a></h3>
 	<div>
 		<a href="./{{ scout.pk }}">{{ scout.Name }}</a>
 	</div>
 	{% endfor %}
+
+	<div id="thingy" style="width:300px;height:300px;background-color:#0f0;"/>
 <h1><a href="add">Add a Scout</a></h1>
 {% endblock %}
 
-{% block extjs_script %}
-{% endblock %}
+{% block document-ready-js %}
 
+	$('#thingy').dialog();
+
+{% endblock %}

@@ -6,28 +6,21 @@
   <!-- characters, just make ALL strings, on the page, json and database utf-8. -->
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-  <!-- Ext relies on its default css so include it here. -->
-  <!-- This must come BEFORE javascript includes! -->
-  <!-- <link rel="stylesheet" type="text/css" href="../static_stuff/ext/resources/css/ext-all.css"> -->
+  	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="{{ STATIC_URL }}CubTrax/img/icon.ico"/>
 
- <!-- First of javascript includes must be an adapter... -->
-  <!-- <script type="text/javascript" src="../static_stuff/ext/adapter/ext/ext-base.js"></script> -->
- 
-<!-- ...then you need the Ext itself, either debug or production version. -->
-  <!-- <script type="text/javascript" src="../static_stuff/ext/ext-all-debug.js"></script> -->
+	<!-- JQuery -->
+	<link type="text/css" href="{{ STATIC_URL }}CubTrax/js/jquery-ui/css/ui-lightness/jquery-ui-1.8.8.custom.css" rel="Stylesheet" />	
+	<script type="text/javascript" src="{{ STATIC_URL }}CubTrax/js/jquery-1.4.4.min.js"></script> 
+	<script type="text/javascript" src="{{ STATIC_URL }}CubTrax/js/jquery-ui/js/jquery-ui-1.8.8.custom.min.js"></script>
 
-<!-- 
-  <script type="text/javascript">
- 
-  // Path to the blank image must point to a valid location on your server
-  Ext.BLANK_IMAGE_URL = '../static_stuff/ext/resources/images/default/s.gif';
- 
-  // Main application entry point
-  Ext.onReady(function() {
-	{% block extjs_script %}{% endblock %}
-  });
-  </script>
--->
+	<!--- Dajaxice stuff -->
+	{% load dajaxice_templatetags %}
+	{% dajaxice_js_import %}
+
+	<!-- Custom JS -->
+	{% block custom-js-files %}{% endblock %}
+
   <title>{% block title %}{% endblock %}</title>
 
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}CubTrax/css/base.css">
@@ -45,7 +38,7 @@
 			<li class="button"><a href="{% url CubTrax.views.index %}" >Dashboard</a></li>
 			<li class="button"><a href="{% url CubTrax.views.meetings %}" >Meetings</a></li>
 			<li class="button"><a href="{% url CubTrax.views.scouts %}" >Scouts</a></li>
-			<li class="button"><a href="{% url CubTrax.views.awards %} >Awards</a></li>
+			<li class="button"><a href="{% url CubTrax.views.awards %}" >Awards</a></li>
 			<li class="last_button"></li>
 		</ul>
 	</div>
@@ -57,7 +50,18 @@
 	</div>
 </div>
 </div>
-    
+   
+
+<script type="text/javascript">
+$(document).ready(function(){
+{% block document-ready-js %}{% endblock %}
+});
+</script>
+
+<script type="text/javascript">
+{% block post-script %}{% endblock %}
+</script>
+ 
 </body>
 </html>
 
