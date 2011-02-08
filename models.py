@@ -75,7 +75,6 @@ class Den( models.Model ):
 class CubScout( Person ):
 	"""A cub scout"""
 	birthday = models.DateField( 'birthday', blank=True, null=True )
-	achievements = models.ForeignKey( 'Achievement', blank=True, null=True )
 	den = models.ForeignKey( Den )
 
 	def GetLastBirthday(self):
@@ -134,6 +133,7 @@ class Achievement( models.Model ):
 	"""An achievement that a scout has performed which fulfills a requirement"""
 	date = models.DateField()
 	meeting = models.ForeignKey(Meeting, null=True, blank=True)
+	scout = models.ForeignKey(CubScout)
 	def __unicode__(self):
 		return "%s did %s on %s" % (str(self.cub_scout), self.requirement.name, self.date)
 
