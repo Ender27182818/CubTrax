@@ -17,14 +17,22 @@
 	{% endif %}
 
 	<table class="stripeMe" id="scout_table">
-		<tr><th></th><th>First Name</th><th>Last Name</th><th>Den</th><th>Birthday</th></tr>
+		<col class="avatar_column" />
+		<col class="first_name_column" />
+		<col class="last_name_column" />
+		<col class="den_column" />
+		<col class="birthday_column" />
+		<col class="edit_column" />
+		<col class="delete_column" />
+		<tr><th></th><th>First Name</th><th>Last Name</th><th>Den</th><th>Birthday</th><th></th><th></th></tr>
 		{% for scout in scouts %} 
 			<tr id="scout_row_{{scout.id}}">
 				<td><img width="50" heigh="50" src="{{ STATIC_URL }}CubTrax/img/avatar.jpg"/></td>
 				<td>{{ scout.first_name }}</td>
 				<td>{{ scout.last_name }}</td>
 				<td>{{ scout.den.get_den_type_display }}</td>
-				<td>{{ scout.birthday }}</td>
+				<td>{{ scout.birthday|date:"Y-m-d" }}</td>
+				<td><button class="scout_edit_button button" id="edit_scout_{{ scout.id }}">Edit</button></td>
 				<td><button class="scout_delete_button button" id="delete_scout_{{ scout.id }}">X</button></td>
 			</tr>
 		{% endfor %}

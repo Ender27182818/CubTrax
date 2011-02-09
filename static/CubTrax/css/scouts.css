@@ -1,3 +1,25 @@
 #scout_table {
 	width: 100%;
+	table-layout: fixed;
+}
+.avatar_column {
+	width: 10%;
+}
+.first_name_column {
+	width: 18%;
+}
+.last_name_column {
+	width: 18%;
+}
+.den_column {
+	width: 14%;
+}
+.birthday_column {
+	width: 20%;
+}
+.edit_column {
+	width: 10%;
+}
+.delete_column {
+	width: 10%;
 }
