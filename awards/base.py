@@ -7,10 +7,14 @@ def all():
 def get( id ):
 	"""Gets the award with the given ID"""
 	id = int(id)
-
-
 	return _awards_map[id]
 
+def get_requirement( id ):
+	"""Gets the requirement with the given ID"""
+	id = int(id)
+	return _requirements_map[id]
+
+	
 class UnicodeConverter():
 	"""A simple mix-in that handles converting from Django's __unicode__ convert to a pythonic __str__ converter"""
 	def __str__(self):
@@ -18,7 +22,7 @@ class UnicodeConverter():
 	
 class Award(UnicodeConverter):
 	"""An award, such as Bobcat, Wolf, an Arrow point or the Swimming Belt Loop"""
-	_current_award_id = 1
+	_current_award_id = 0
 
 	@staticmethod
 	def _get_id():
@@ -47,26 +51,46 @@ class Award(UnicodeConverter):
 
 class Requirement():
 	"""A requirement for an award, such as 'swim 100 meters', or 'paint a picture'"""
+	
+	# Used to give out unique IDs to each Requirement as its made
+	_current_requirement_id = 0
+
+	# Used to store all requirement IDs with their name
+	choices_map = []	
+
+	@staticmethod
+	def _get_id():
+		"""Returns an available ID number for a new award"""
+		requirement_id = Requirement._current_requirement_id
+		Requirement._current_requirement_id = requirement_id + 1
+		return requirement_id
 
 	@classmethod
 	def fromarray(cls, *args):
 		if( len( args ) < 3 ):
 			raise Exception( "{0} has {1} arguments - need at least 3".format(args, len(args)) )
+		if not isinstance(args[0], Award):
+			raise Exception( "{0} is not an Award".format(args[0]) )
+		print( "Creating Req from args: %s|%s|%s" % args[:3] )
 		new_req = cls(args[0], args[1], args[2])
 		if( len(args) > 3 ):
 			new_req.additional_info = args[3]
 		if( len(args) > 4 and not isinstance(args[4], basestring)):
 			new_req.subordinate_requirements = []
 			for r in args[4]:
-				new_req.subordinate_requirements.append( Requirement.fromarray( *r ) )
+				new_req.subordinate_requirements.append( Requirement.fromarray( args[0], *r ) )
 		return new_req
 
 	def __init__(self, award, name, contents, additional_info="", subordinate_requirements=[]):
+		self.id = Requirement._get_id()
+		if not isinstance(award, Award):
+			raise Exception( "{0} is not an Award".format(award) )
 		self.award = award
 		self.name = name
 		self.contents = contents
 		self.additional_info = additional_info
 		self.subordinate_requirements = subordinate_requirements
+		Requirement.choices_map.append( (self.id, self.name) )
 
 	def __unicode__(self):
 		return "{0} - {1}".format( self.award.name, self.name )
