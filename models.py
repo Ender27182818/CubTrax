@@ -97,7 +97,7 @@ class CubScout( Person ):
 	def GetBirthdayPercentage(self):
 		"""Gets the percentage of time completed to their next birthday"""
 		if( self.birthday == None ):
-			return None
+			return 0
 		last_birthday = self.GetLastBirthday()
 		time_passed = date.today() - last_birthday
 		return (time_passed.days / 365.0)
@@ -108,15 +108,34 @@ class CubScout( Person ):
 	
 	def GetBirthdayString(self):
 		"""Gets the birthday as a month/day pair, like 'Jan 1'"""
-		return self.birthday.strftime("%b %m")
+		if self.birthday:
+			return self.birthday.strftime("%b %m")
+		else:
+			return "?"
 
 	def LatestAchievements(self, n=5):
 		"""Gets the n latest achievements"""
-		return self.achievement_set.order_by( 'date' )[:n]
+		#achievements = self.achievement_set.order_by( 'date' )[:n]
+		meetings = self.meeting_set.order_by( 'date' )
+		reqs = []
+		for m in meetings:
+			for r in m.requirements.all():
+				reqs.append(r)
+				if( len(reqs) == n ):
+					return reqs
+		return reqs
 
 	def ToDo(self, n=5):
 		"""Gets the n requirements for the current award that have yet to be done"""
 		return None #Requirement.objects.filter(award=self.CurrentAward()).exclude(cubscout=self)[:n]
+
+class Requirement( models.Model ):
+	"""A thin wrapper around awards.Requirement"""
+	requirement_id = models.IntegerField()
+	def __unicode__(self):
+		return awards.get_requirement(self.requirement_id).name
+	def requirement(self):
+		return awards.get_requirement(self.requirement_id)
 
 class Meeting( models.Model ):
 	"""Represents a meeting where something was accomplished for the scouts"""
@@ -125,7 +144,7 @@ class Meeting( models.Model ):
 	date = models.DateField()
 	location = models.CharField(max_length=200)
 	notes = models.TextField()
-	#requirements = models.ManyToManyField( Requirement, blank=True )
+	requirements = models.ManyToManyField( Requirement, blank=True )
 	def __unicode__(self):
 		return "Meeting on %s at %s" % (self.date, self.location)
 

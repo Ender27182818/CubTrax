@@ -1,18 +1,17 @@
-_awards_map = {}
 
 def all():
 	"""Gets all of the defined awards"""
-	return _awards_map.values()
+	return Award._awards_map.values()
 
 def get( id ):
 	"""Gets the award with the given ID"""
 	id = int(id)
-	return _awards_map[id]
+	return Award._awards_map[id]
 
 def get_requirement( id ):
 	"""Gets the requirement with the given ID"""
 	id = int(id)
-	return _requirements_map[id]
+	return Requirement._requirements_map[id]
 
 	
 class UnicodeConverter():
@@ -23,6 +22,8 @@ class UnicodeConverter():
 class Award(UnicodeConverter):
 	"""An award, such as Bobcat, Wolf, an Arrow point or the Swimming Belt Loop"""
 	_current_award_id = 0
+
+	_awards_map = {}
 
 	@staticmethod
 	def _get_id():
@@ -37,9 +38,9 @@ class Award(UnicodeConverter):
 		self.name = name
 		self.requirements = []
 		for r in reqs:
-			self.requirements.append( Requirement.fromarray( self, *r ) )
+			self.requirements.append( Requirement( self, *r ) )
 		# Save the new award so that we can always access it in the awards list
-		_awards_map[self.id] = self
+		Award._awards_map[self.id] = self
 
 	def __unicode__(self):
 		return self.name
@@ -58,28 +59,15 @@ class Requirement():
 	# Used to store all requirement IDs with their name
 	choices_map = []	
 
+	# Used to map ids to Requirements
+	_requirements_map = {}
+
 	@staticmethod
 	def _get_id():
 		"""Returns an available ID number for a new award"""
 		requirement_id = Requirement._current_requirement_id
 		Requirement._current_requirement_id = requirement_id + 1
 		return requirement_id
-
-	@classmethod
-	def fromarray(cls, *args):
-		if( len( args ) < 3 ):
-			raise Exception( "{0} has {1} arguments - need at least 3".format(args, len(args)) )
-		if not isinstance(args[0], Award):
-			raise Exception( "{0} is not an Award".format(args[0]) )
-		print( "Creating Req from args: %s|%s|%s" % args[:3] )
-		new_req = cls(args[0], args[1], args[2])
-		if( len(args) > 3 ):
-			new_req.additional_info = args[3]
-		if( len(args) > 4 and not isinstance(args[4], basestring)):
-			new_req.subordinate_requirements = []
-			for r in args[4]:
-				new_req.subordinate_requirements.append( Requirement.fromarray( args[0], *r ) )
-		return new_req
 
 	def __init__(self, award, name, contents, additional_info="", subordinate_requirements=[]):
 		self.id = Requirement._get_id()
@@ -89,8 +77,16 @@ class Requirement():
 		self.name = name
 		self.contents = contents
 		self.additional_info = additional_info
-		self.subordinate_requirements = subordinate_requirements
+		self.parent_requirement = None
+		# First see if the subordinate requirements is a list of Requirements and save it off if so
+		self.subordinate_requirements = []
+		for sr in subordinate_requirements:
+			new_requirement = Requirement( award, *sr )
+			new_requirement.parent_requirement = self
+			self.subordinate_requirements.append( new_requirement )
+		
 		Requirement.choices_map.append( (self.id, self.name) )
+		Requirement._requirements_map[self.id] = self
 
 	def __unicode__(self):
 		return "{0} - {1}".format( self.award.name, self.name )
