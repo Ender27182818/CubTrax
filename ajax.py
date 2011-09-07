@@ -11,7 +11,7 @@ def get_den_by_long_form(den_type):
 	
 def myexample(request):
 	
-	return simplejson.dumps({'message':'Hello World'})
+	return simplejson.dumps({'message':'Hello from Django Ajax Ice'})
 dajaxice_functions.register(myexample)
 
 def add_scout(request, first_name, last_name, birthday, den_type):

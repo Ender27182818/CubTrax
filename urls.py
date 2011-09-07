@@ -18,6 +18,7 @@ urlpatterns = patterns('CubTrax.views',
 	(r'^meetings/(?P<meeting_id>\d+)/$', 'meeting_detail'),
 	(r'^meetings/add$', 'add_meeting'),
 	(r'^meetings/added/(?P<meeting_id>\d+)/$', 'added_meeting'),
+	(r'^rpc/awards/$', 'rpc_awards'),
 	
 	(r'^test/$', 'test'),
 )

@@ -1,12 +1,13 @@
 from CubTrax.models import *
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
+from django.core import serializers
 from CubTrax.forms import *
 import CubTrax.awards
 
 def test(request):
-	return render_to_response('CubTrax/test.html', {'bobcat':CubTrax.awards.bobcat})
+	return render_to_response('CubTrax/test.html', {'bobcat':CubTrax.awards.bobcat}, context_instance=RequestContext(request))
 
 def index(request):
 	cubs = CubScout.objects.all().order_by('birthday')
@@ -56,6 +57,15 @@ def awards(request):
 def award_detail(request, award_id):
 	award = CubTrax.awards.get(id=award_id)
 	return render_to_response('CubTrax/award_detail.html', {'award':award}, context_instance=RequestContext(request))
+
+import json
+def rpc_awards(request):
+	awards = CubTrax.awards.all()
+	award_names = []
+	for award in awards:
+		award_names.append( (award.name(), award.pk) )
+	data = json.dumps(award_names)
+	return HttpResponse(data)
 
 def meetings(request):
 	meetings = Meeting.objects.all()
