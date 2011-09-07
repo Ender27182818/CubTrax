@@ -86,7 +86,8 @@ def add_meeting(request):
 			return HttpResponseRedirect('./added/%d' % new_meeting.pk)
 	else:
 		form = AddMeetingForm()
-	return render_to_response('CubTrax/add_meeting.html', {'form': form}, context_instance=RequestContext(request))
+	scouts = CubScout.objects.all()
+	return render_to_response('CubTrax/add_meeting.html', {'form': form, 'scouts':scouts, 'awards':CubTrax.awards.all()}, context_instance=RequestContext(request))
 
 def added_meeting(request, meeting_id):
 	meeting = Meeting.objects.get(pk=meeting_id)

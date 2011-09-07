@@ -6,7 +6,20 @@
 
 {% block content %}
 <form action="./add" method="post">
-{{ form.as_p }}
+	<div class="formrow">Date<input type="text" name="date"/></div>
+	<div class="formrow">Location<input type="text" name="location"></div>
+	<div class="formrow">Notes<textarea rows="4" cols="30"></textarea></div>
+	<div class="formrow">Scouts<select multiple size="7"></div>
+	{% for scout in scouts %}
+		<option value={{ scout.pk }}>{{ scout.first_name }} {{scout.last_name}}</option>
+	{% endfor %}
+	</select></div>
+	<div class="formrow">Requirements<br/></div>
+	<select multiple size="3">
+	{% for award in awards %}
+		<option value={{ award.id }}>{{ award.name }}</option>
+	{% endfor %}
+	</select>
 <input type="submit" value="Add Meeting" />
 </form>
 {% endblock %}
