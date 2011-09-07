@@ -76,7 +76,9 @@ class CubScout( Person ):
 	"""A cub scout"""
 	birthday = models.DateField( 'birthday', blank=True, null=True )
 	den = models.ForeignKey( Den )
-
+	def get_current_award(self):
+		return awards.get(0)
+	
 	def GetLastBirthday(self):
 		"""Gets the last birthday"""
 		if( self.birthday == None ):
@@ -127,7 +129,7 @@ class CubScout( Person ):
 
 	def ToDo(self, n=5):
 		"""Gets the n requirements for the current award that have yet to be done"""
-		return None #Requirement.objects.filter(award=self.CurrentAward()).exclude(cubscout=self)[:n]
+		return None #Requirement.objects.filter(award=self.get_current_award()).exclude(cubscout=self)[:n]
 
 class Requirement( models.Model ):
 	"""A thin wrapper around awards.Requirement"""

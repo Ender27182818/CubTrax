@@ -30,7 +30,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td><a href="./awards/{{ cub.CurrentAward.pk }}"><img width="40" height="40" src="{{ STATIC_URL }}CubTrax/img/awards/{{ cub.CurrentAward.ImageName }}"/></a></td>
+						<td><a href="./awards/{{ cub.get_current_award.id }}"><img width="40" height="40" src="{{ STATIC_URL }}CubTrax/img/awards/{{ cub.get_current_award.image_name }}"/></a></td>
 						<td>
 							<div style="width:200px;height:20px" class="pbar_container">
 								<div class="pbar_red" style="width:{{ cub.CurrentAwardPercentCompleted }}%;height:100%"/>

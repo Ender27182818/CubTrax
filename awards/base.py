@@ -50,6 +50,9 @@ class Award(UnicodeConverter):
 	def db_name(self):
 		return "awards.{0}".format(self.name.lower)
 
+	def image_name(self):
+		return "{0}.jpg".format( self.name.lower() )
+
 class Requirement():
 	"""A requirement for an award, such as 'swim 100 meters', or 'paint a picture'"""
 	
