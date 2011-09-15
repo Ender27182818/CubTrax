@@ -4,12 +4,30 @@
 
 {% block additional_style %}{{ STATIC_URL }}CubTrax/css/index.css{% endblock %}
 
+{% block custom-js %}
+
+function custom_test()
+{
+	//alert("Testing 1 2 3");
+}
+
+function award_selected()
+{
+	alert("Award selected");
+}
+{% endblock %}
+
+{% block document-ready-js %}
+custom_test();
+{% endblock %}
+
+
 {% block content %}
 <form action="./add" method="post">
 	<div class="formrow">Date<input type="text" name="date"/></div>
 	<div class="formrow">Location<input type="text" name="location"></div>
 	<div class="formrow">Notes<textarea rows="4" cols="30"></textarea></div>
-	<div class="formrow">Scouts<select multiple size="7"></div>
+	<div class="formrow">Scouts<select multiple size="7" onClick="award_selected()"></div>
 	{% for scout in scouts %}
 		<option value={{ scout.pk }}>{{ scout.first_name }} {{scout.last_name}}</option>
 	{% endfor %}
@@ -24,6 +42,4 @@
 </form>
 {% endblock %}
 
-{% block extjs_script %}
-{% endblock %}
 
